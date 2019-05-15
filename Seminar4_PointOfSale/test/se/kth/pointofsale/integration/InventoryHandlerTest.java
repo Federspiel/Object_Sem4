@@ -6,6 +6,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import se.kth.pointofsale.exceptions.DatabaseFailureException;
+import se.kth.pointofsale.exceptions.ItemNotFoundException;
+
 public class InventoryHandlerTest {
     private InventoryHandler inventoryHandler;
 
@@ -33,6 +36,16 @@ public class InventoryHandlerTest {
         boolean item1EqualWithItem2 = testItem1.equals(testItem2);
         assertFalse("Item fetched with different ids are the same!", item1EqualWithItem2);
 
+    }
+    
+    @Test(expected = DatabaseFailureException.class)
+    public void testDatabaseFailureException() throws DatabaseFailureException, ItemNotFoundException{
+    	inventoryHandler.getItemInfo(7);
+    }
+    
+    @Test(expected = ItemNotFoundException.class)
+    public void testItemNotFoundException() throws DatabaseFailureException, ItemNotFoundException{
+    	inventoryHandler.getItemInfo(15);
     }
 
     @Test
